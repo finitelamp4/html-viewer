@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTML File Runner</title>
+</head>
+<body>
+    <h1>lightweight html viewer</h1>
+    <h4>for unblocking games</h4>
+
+    <!-- File input to select the HTML file -->
+    <input type="file" id="fileInput" accept=".html" />
+    <button id="openBtn" disabled>Open in New Tab</button>
+
+    <script>
+        const fileInput = document.getElementById('fileInput');
+        const openBtn = document.getElementById('openBtn');
+
+        // Enable the "Open in New Tab" button once a file is selected
+        fileInput.addEventListener('change', () => {
+            if (fileInput.files.length > 0) {
+                openBtn.disabled = false;
+            } else {
+                openBtn.disabled = true;
+            }
+        });
+
+        // Open the selected HTML file in a new tab
+        openBtn.addEventListener('click', () => {
+            const file = fileInput.files[0];
+            const reader = new FileReader();
+
+            reader.onload = function(event) {
+                const fileContent = event.target.result;
+                const newWindow = window.open();
+                newWindow.document.open();
+                newWindow.document.write(fileContent);
+                newWindow.document.close();
+            };
+
+            reader.readAsText(file);
+        });
+    </script>
+</body>
+</html>
